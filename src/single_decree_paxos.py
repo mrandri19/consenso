@@ -8,8 +8,6 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Callable, NewType, Protocol
 
-# region proposal number and state
-
 
 @dataclass(frozen=True, order=True)
 class ProposalNumber:
@@ -43,11 +41,6 @@ class State:
     "largest round number the server has seen"
 
 
-# endregion
-
-# region requests and responses
-
-
 @dataclass(frozen=True)
 class PrepareRequest:
     proposal_number: ProposalNumber
@@ -74,11 +67,6 @@ class AcceptResponse:
     min_proposal: ProposalNumber
 
 
-# endregion
-
-# region acceptor
-
-
 class Acceptor:
     def __init__(self) -> None:
         self.state = State()
@@ -95,10 +83,6 @@ class Acceptor:
             self.state.min_proposal = accept_request.proposal_number
         return AcceptResponse(self.state.min_proposal)
 
-
-# endregion
-
-# region proposer state machine
 
 AcceptorId = NewType("AcceptorId", str)
 
@@ -214,5 +198,3 @@ class Proposer:
 
 
 # TODO: I should convert the proposer to a state machine as well
-
-# endregion
